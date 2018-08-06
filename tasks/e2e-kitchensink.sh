@@ -162,6 +162,9 @@ E2E_FILE=./build/index.html \
 # Eject...
 echo yes | npm run eject
 
+# added by aeldar
+yarn
+
 # Link to test module
 npm link "$temp_module_path/node_modules/test-integrity"
 

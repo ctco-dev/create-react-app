@@ -100,7 +100,7 @@ git clean -df
 
 # Install the app in a temporary location
 cd $temp_app_path
-npx create-react-app --internal-testing-template="$root_path"/packages/react-scripts/fixtures/kitchensink test-kitchensink
+npx create-react-app --scripts-version=@aeldar/react-scripts --internal-testing-template="$root_path"/packages/react-scripts/fixtures/kitchensink test-kitchensink
 
 # Install the test module
 cd "$temp_module_path"

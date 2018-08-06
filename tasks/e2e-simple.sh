@@ -259,6 +259,9 @@ verify_module_scope
 # Eject...
 echo yes | npm run eject
 
+# added by aeldar
+yarn
+
 # Test the build
 yarn build
 # Check for expected output

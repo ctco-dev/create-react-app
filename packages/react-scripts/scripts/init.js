@@ -99,7 +99,24 @@ module.exports = function(
     command = 'npm';
     args = ['install', '--save', verbose && '--verbose'].filter(e => e);
   }
-  args.push('react', 'react-dom');
+
+  // Install devDependencies
+  const devDependencies = require('./utils/devDependencies');
+  console.log(
+    `Installing ${devDependencies.join(
+      ', '
+    )} as dev dependencies using ${command}...`
+  );
+  console.log();
+  const devProc = spawn.sync(
+    command,
+    args.concat('-D').concat(devDependencies),
+    { stdio: 'inherit' }
+  );
+  if (devProc.status !== 0) {
+    console.error(`\`${command} ${args.concat(types).join(' ')}\` failed`);
+    return;
+  }
 
   // Install additional template dependencies, if present
   const templateDependenciesPath = path.join(
@@ -123,7 +140,9 @@ module.exports = function(
     console.log(`Installing react and react-dom using ${command}...`);
     console.log();
 
-    const proc = spawn.sync(command, args, { stdio: 'inherit' });
+    const proc = spawn.sync(command, args.concat(['react', 'react-dom']), {
+      stdio: 'inherit',
+    });
     if (proc.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`);
       return;

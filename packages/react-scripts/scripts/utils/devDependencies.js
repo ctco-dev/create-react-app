@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = [
   '@types/node',
   '@types/react',

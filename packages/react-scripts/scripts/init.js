@@ -114,7 +114,9 @@ module.exports = function(
     { stdio: 'inherit' }
   );
   if (devProc.status !== 0) {
-    console.error(`\`${command} ${args.concat(types).join(' ')}\` failed`);
+    console.error(
+      `\`${command} ${args.concat(devDependencies).join(' ')}\` failed`
+    );
     return;
   }
 

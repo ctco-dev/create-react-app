@@ -36,12 +36,7 @@ module.exports = function(
   appPackage.dependencies = appPackage.dependencies || {};
 
   // Setup the script rules
-  appPackage.scripts = {
-    start: 'react-scripts start',
-    build: 'react-scripts build',
-    test: 'react-scripts test --env=jsdom',
-    eject: 'react-scripts eject',
-  };
+  appPackage.scripts = require('./utils/scripts');
 
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
@@ -142,9 +137,13 @@ module.exports = function(
     console.log(`Installing react and react-dom using ${command}...`);
     console.log();
 
-    const proc = spawn.sync(command, args.concat(['react', 'react-dom']), {
-      stdio: 'inherit',
-    });
+    const proc = spawn.sync(
+      command,
+      args.concat(require('./utils/dependencies')),
+      {
+        stdio: 'inherit',
+      }
+    );
     if (proc.status !== 0) {
       console.error(`\`${command} ${args.join(' ')}\` failed`);
       return;

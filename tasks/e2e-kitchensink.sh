@@ -102,6 +102,9 @@ git clean -df
 cd $temp_app_path
 npx create-react-app --scripts-version=@aeldar/react-scripts --internal-testing-template="$root_path"/packages/react-scripts/fixtures/kitchensink test-kitchensink
 
+# Copy typescript configs from @aeldar/react-sctipts
+cp "$root_path"/packages/react-scripts/template/ts* "$temp_app_path/test-kitchensink"
+
 # Install the test module
 cd "$temp_module_path"
 yarn add test-integrity@^2.0.1

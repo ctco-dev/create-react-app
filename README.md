@@ -19,6 +19,12 @@ If something doesn’t work, please [file an issue](https://github.com/ctco-dev/
 * [TSLint Config Airbnb](https://github.com/progre/tslint-config-airbnb) - a tslint config for [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 * [12 Factor Application Configuration](https://12factor.net/config) approach to profile application in runtime. [Details](https://github.com/ctco-dev/create-react-app/blob/master/packages/react-scripts/template/README.md#12-factor-app-config)
 * :whale: [Docker](https://www.docker.com/) support (plus 12 Factor configuration in runtime, see above)
+* [CSS Modules](https://github.com/css-modules/css-modules) - optional
+* [typings-for-css-modules-loader](https://github.com/Jimdo/typings-for-css-modules-loader) - lightweight `css-loader` replacement to enable type generation for css module files
+* [Browserslist](https://github.com/browserslist/browserslist)
+* [SASS/SCSS](https://sass-lang.com/) - optional
+* Source maps for CSS enabled in dev mode
+* [Classnames](https://github.com/JedWatson/classnames) - for conditionally joining classNames together
 
 ## Quick Overview
 

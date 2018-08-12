@@ -8,7 +8,10 @@ You can find the official CRA docs [here](https://github.com/facebookincubator/c
 * [How it differes from the official CRA](https://github.com/ctco-dev/create-react-app/blob/master/README.md#how-it-differs-from-the-official-cra)
 * [Common tasks](#common-tasks)
 * [Use docker](#use-docker)
-* [12 Factor app config](#12-factor-app-config) - [12 Factor](https://12factor.net/config) approach to maintain configuration.
+* [12 Factor app config](#12-factor-app-config) - [12 Factor](https://12factor.net/config) approach to maintain configuration
+* [CSS Modules](#css-modules)
+* [Browserslist](#browserslist) - autoprefixer configuration
+* [SASS/SCSS](#sass/scss)
 
 ## Common tasks
 
@@ -63,4 +66,19 @@ or add variables to `.env`, `.env.local`, `.env.development` et c. (see [Officia
 To inject environment variables into an application on starting a docker container:
 ```sh
 docker run --rm -it --name my-cra-container -e "WEB_APP_ONE=hello my app" -p 8080:80 my-cra-image
+```
+
+## CSS Modules
+
+[CSS Modules](https://github.com/css-modules/css-modules) can be used to define CSS styles. The file for CSS Modules should be named with `.module.css` suffix. To make typescript understand typings for the CSS Module file, they are generated automatically, when `yarn start` is running. The typings file is named the same as `*.module.css` file plus `.d.ts` suffix.
+
+## Browserslist
+
+[Browserslist](https://github.com/browserslist/browserslist) is used to configure [autoprefixer](https://github.com/postcss/autoprefixer). See official [docs](https://github.com/browserslist/browserslist).
+
+## SASS/SCSS
+
+Just add it to the project. CSS Modules work with sass files as well.
+```sh
+yarn add sass
 ```

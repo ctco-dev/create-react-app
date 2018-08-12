@@ -51,11 +51,15 @@ These commands will run the container app and allow to see it on http://localhos
 
 Environment variables filtered by mask (default mask is `WEB_APP_`) and injected into `window.env` at runtime in development mode (after `yarn start`) and in production mode (if running under docker with provided `.docker` scripts).
 
+### Development
 To run project in dev mode and inject variables try to assign them in command line:
 ```sh
 WEB_APP_ONE="hello my app" yarn start
 ```
 
+or add variables to `.env`, `.env.local`, `.env.development` et c. (see [Official CRA doc](https://github.com/facebook/create-react-app/blob/master/packages/react-scripts/template/README.md#adding-development-environment-variables-in-env), but remember, only `WEB_APP_` prefixed variables will be injected into `window.env`). 
+
+### Production
 To inject environment variables into an application on starting a docker container:
 ```sh
 docker run --rm -it --name my-cra-container -e "WEB_APP_ONE=\"hello my app\"" -p 8080:80 my-cra-image

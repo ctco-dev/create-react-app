@@ -62,5 +62,5 @@ or add variables to `.env`, `.env.local`, `.env.development` et c. (see [Officia
 ### Production
 To inject environment variables into an application on starting a docker container:
 ```sh
-docker run --rm -it --name my-cra-container -e "WEB_APP_ONE=\"hello my app\"" -p 8080:80 my-cra-image
+docker run --rm -it --name my-cra-container -e "WEB_APP_ONE=hello my app" -p 8080:80 my-cra-image
 ```

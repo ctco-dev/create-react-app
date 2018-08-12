@@ -7,6 +7,7 @@ Create React apps with no build configuration. Forked by @ctco-dev from original
 * [How it differs from the official CRA](#how-it-differs-from-the-official-cra)
 * [Quick Overview](#quick-overview)
 * [Creating an App](#creating-an-app) – How to create a new app.
+* [CTCO-DEV User Guide](https://github.com/ctco-dev/create-react-app/blob/master/packages/react-scripts/template/README.md) - How to develop apps bootstrapped with Create React App and `@ctco-dev/react-scripts` mod.
 * [Original CRA User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) – How to develop apps bootstrapped with Create React App.
 
 Create React App works on macOS, Windows, and Linux.<br>
@@ -16,6 +17,8 @@ If something doesn’t work, please [file an issue](https://github.com/ctco-dev/
 * [Typescript](https://www.typescriptlang.org/)
 * [TSLint](https://palantir.github.io/tslint/) - typescript linter
 * [TSLint Config Airbnb](https://github.com/progre/tslint-config-airbnb) - a tslint config for [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
+* [12 Factor Application Configuration](https://12factor.net/config) approach to profile application in runtime. [Details](https://github.com/ctco-dev/create-react-app/blob/master/packages/react-scripts/template/README.md#12-factor-app-config)
+* :whale: [Docker](https://www.docker.com/) support (plus 12 Factor configuration in runtime, see above)
 
 ## Quick Overview
 
@@ -71,14 +74,6 @@ Runs the test watcher in an interactive mode.
 ### `npm run build` or `yarn build`
 
 Builds the app for production to the `build` folder.
-
-### `npm run lint` or `yarn lint`
-
-Runs [`tslint`](https://palantir.github.io/tslint/) linter to analyze your project. Run it with `--fix` flag to make it try to fix some errors automatically.
-
-### `npm run analyze` or `yarn analyze`
-
-Runs [source-map-explorer](https://github.com/danvk/source-map-explorer) to analyze the bundle size of your project inside `build` directory. _Should be run after building the app_.
 
 ## Official CRA User Guide
 

@@ -21,6 +21,8 @@ const getClientEnvironment = require('./env');
 const paths = require('./paths');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
+const HtmlWebpackInjectEnvPlugin = require('@ctco-dev/html-webpack-inject-env-plugin');
+
 // Webpack uses `publicPath` to determine where the app is being served from.
 // In development, we always serve from the root. This makes config easier.
 const publicPath = '/';
@@ -273,6 +275,8 @@ module.exports = {
       inject: true,
       template: paths.appHtml,
     }),
+    // inject env vars, filtered by mask WEB_APP_, into window.env
+    new HtmlWebpackInjectEnvPlugin(),
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
     // Makes some environment variables available to the JS code, for example:

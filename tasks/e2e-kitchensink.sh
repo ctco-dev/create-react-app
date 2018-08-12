@@ -100,9 +100,9 @@ git clean -df
 
 # Install the app in a temporary location
 cd $temp_app_path
-npx create-react-app --scripts-version=@aeldar/react-scripts --internal-testing-template="$root_path"/packages/react-scripts/fixtures/kitchensink test-kitchensink
+npx create-react-app --scripts-version=@ctco-dev/react-scripts --internal-testing-template="$root_path"/packages/react-scripts/fixtures/kitchensink test-kitchensink
 
-# Copy typescript configs from @aeldar/react-sctipts
+# Copy typescript configs from @ctco-dev/react-sctipts
 cp "$root_path"/packages/react-scripts/template/ts* "$temp_app_path/test-kitchensink"
 
 # Install the test module
@@ -165,7 +165,7 @@ E2E_FILE=./build/index.html \
 # Eject...
 echo yes | npm run eject
 
-# added by aeldar
+# added by ctco-dev
 yarn
 
 # Link to test module

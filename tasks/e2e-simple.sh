@@ -149,7 +149,7 @@ git clean -df
 
 # Install the app in a temporary location
 cd $temp_app_path
-npx create-react-app --scripts-version=@aeldar/react-scripts test-app
+npx create-react-app --scripts-version=@ctco-dev/react-scripts test-app
 
 # TODO: verify we installed prerelease
 
@@ -259,7 +259,7 @@ verify_module_scope
 # Eject...
 echo yes | npm run eject
 
-# added by aeldar
+# added by ctco-dev
 yarn
 
 # Test the build

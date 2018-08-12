@@ -1,4 +1,4 @@
-# Create React App, @ctco-dev mod
+# Create React App @ctco-dev mod
 [![npm version](https://badge.fury.io/js/%40ctco-dev%2Freact-scripts.svg)](https://badge.fury.io/js/%40ctco-dev%2Freact-scripts)
 [![Build Status](https://travis-ci.org/ctco-dev/create-react-app.svg?branch=master)](https://travis-ci.org/ctco-dev/create-react-app)
 

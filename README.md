@@ -14,6 +14,8 @@ If something doesn’t work, please [file an issue](https://github.com/ctco-dev/
 
 ## How it differs from the official CRA
 * [Typescript](https://www.typescriptlang.org/)
+* [TSLint](https://palantir.github.io/tslint/) - typescript linter
+* [TSLint Config Airbnb](https://github.com/progre/tslint-config-airbnb) - a tslint config for [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript)
 
 ## Quick Overview
 
@@ -70,9 +72,17 @@ Runs the test watcher in an interactive mode.
 
 Builds the app for production to the `build` folder.
 
+### `npm run lint` or `yarn lint`
+
+Runs [`tslint`](https://palantir.github.io/tslint/) linter to analyze your project. Run it with `--fix` flag to make it try to fix some errors automatically.
+
+### `npm run analyze` or `yarn analyze`
+
+Runs [source-map-explorer](https://github.com/danvk/source-map-explorer) to analyze the bundle size of your project inside `build` directory. _Should be run after building the app_.
+
 ## Official CRA User Guide
 
-The [User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) includes information on different topics, such as:
+The official CRA [User Guide](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md) includes information on different topics, such as:
 
 ## How to Update to New Versions?
 

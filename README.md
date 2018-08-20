@@ -1,6 +1,6 @@
 # Create React App @ctco-dev mod
 [![npm version](https://badge.fury.io/js/%40ctco-dev%2Freact-scripts.svg)](https://badge.fury.io/js/%40ctco-dev%2Freact-scripts)
-[![Build Status](https://travis-ci.org/ctco-dev/create-react-app.svg?branch=master)](https://travis-ci.org/ctco-dev/create-react-app)
+[![Build Status](https://travis-ci.org/ctco/create-react-app.svg?branch=master)](https://travis-ci.org/ctco/create-react-app)
 
 Create React apps with no build configuration. Forked by @ctco-dev from original [CRA](https://github.com/facebookincubator/create-react-app).
 

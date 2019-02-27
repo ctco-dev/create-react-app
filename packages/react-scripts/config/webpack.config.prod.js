@@ -37,6 +37,64 @@ const publicUrl = publicPath.slice(0, -1);
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+const localIdentName = '__[hash:base64:8]';
+
+// common function to get style loaders
+const getStyleLoaders = (cssOptions, preProcessor, preProcessorOptions) => {
+  const loaders = [
+    // this one is used instead of css-loader to allow css modules inside typescript
+    {
+      loader: require.resolve('typings-for-css-modules-loader'),
+      options: Object.assign({},
+        {
+          minimize: true,
+          sourceMap: shouldUseSourceMap,
+          silent: true, // typings-for-css-modules-loader option
+          namedExport: true, // typings-for-css-modules-loader option
+          camelCase: true, // typings-for-css-modules-loader option
+        },
+        cssOptions)
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in
+      // package.json
+      loader: require.resolve('postcss-loader'),
+      options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          autoprefixer({
+            flexbox: 'no-2009',
+          }),
+        ],
+        sourceMap: shouldUseSourceMap,
+      },
+    },
+  ];
+  if (preProcessor) {
+    loaders.push({
+      loader: require.resolve(preProcessor),
+      options: Object.assign({}, { sourceMap: shouldUseSourceMap }, preProcessorOptions),
+    });
+  }
+  return loaders;
+};
+
+const fallbackStyleLoader = {
+  loader: require.resolve('style-loader'),
+  options: {
+    hmr: false,
+  },
+};
+
 // Assert this just to be safe.
 // Development builds of React are slow and not intended for production.
 if (env.stringified['process.env'].NODE_ENV !== '"production"') {
@@ -220,47 +278,54 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: cssRegex,
+            exclude: cssModuleRegex,
             loader: ExtractTextPlugin.extract(
               Object.assign(
-                {
-                  fallback: {
-                    loader: require.resolve('style-loader'),
-                    options: {
-                      hmr: false,
-                    },
-                  },
-                  use: [
-                    {
-                      loader: require.resolve('css-loader'),
-                      options: {
-                        importLoaders: 1,
-                        minimize: true,
-                        sourceMap: shouldUseSourceMap,
-                      },
-                    },
-                    {
-                      loader: require.resolve('postcss-loader'),
-                      options: {
-                        // Necessary for external CSS imports to work
-                        // https://github.com/facebookincubator/create-react-app/issues/2677
-                        ident: 'postcss',
-                        plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009',
-                          }),
-                        ],
-                      },
-                    },
-                  ],
+                { 
+                  fallback: fallbackStyleLoader,
+                  use: getStyleLoaders({ importLoaders: 1 }),
                 },
+                extractTextPluginOptions
+              )
+            ),
+            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+            // using the extension .module.css
+            test: cssModuleRegex,
+            loader: ExtractTextPlugin.extract(
+              Object.assign(
+                { use: getStyleLoaders({ importLoaders: 1, modules: true, localIdentName }) },
+                extractTextPluginOptions
+              )
+            ),
+            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            // Opt-in support for SASS (using .scss or .sass extensions).
+            // Chains the sass-loader with the css-loader and the style-loader
+            // to immediately apply all styles to the DOM.
+            // By default we support SASS Modules with the
+            // extensions .module.scss or .module.sass
+            test: sassRegex,
+            exclude: sassModuleRegex,
+            loader: ExtractTextPlugin.extract(
+              Object.assign(
+                { use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader') },
+                extractTextPluginOptions
+              )
+            ),
+            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            // Adds support for CSS Modules, but using SASS
+            // using the extension .module.scss or .module.sass
+            test: sassModuleRegex,
+            loader: ExtractTextPlugin.extract(
+              Object.assign(
+                { use: getStyleLoaders({ importLoaders: 2, modules: true, localIdentName }, 'sass-loader') },
                 extractTextPluginOptions
               )
             ),

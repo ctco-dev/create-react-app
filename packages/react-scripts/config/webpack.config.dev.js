@@ -33,6 +33,60 @@ const publicUrl = '';
 // Get environment variables to inject into our app.
 const env = getClientEnvironment(publicUrl);
 
+// style files regexes
+const cssRegex = /\.css$/;
+const cssModuleRegex = /\.module\.css$/;
+const sassRegex = /\.(scss|sass)$/;
+const sassModuleRegex = /\.module\.(scss|sass)$/;
+const localIdentName = '[name]__[local]___[hash:base64:8]';
+
+// common function to get style loaders
+const getStyleLoaders = (cssOptions, preProcessor, preProcessorOptions) => {
+  const loaders = [
+    { 
+      loader: require.resolve('style-loader'),
+      options: { sourceMap: true },
+    },
+    // this one is used instead of css-loader to allow css modules inside typescript
+    {
+      loader: require.resolve('typings-for-css-modules-loader'),
+      options: Object.assign({},
+        {
+          sourceMap: true,
+          silent: true, // typings-for-css-modules-loader option
+          namedExport: true, // typings-for-css-modules-loader option
+          camelCase: true, // typings-for-css-modules-loader option
+        },
+        cssOptions)
+    },
+    {
+      // Options for PostCSS as we reference these options twice
+      // Adds vendor prefixing based on your specified browser support in
+      // package.json
+      loader: require.resolve('postcss-loader'),
+      options: {
+        // Necessary for external CSS imports to work
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: 'postcss',
+        plugins: () => [
+          require('postcss-flexbugs-fixes'),
+          autoprefixer({
+            flexbox: 'no-2009',
+          }),
+        ],
+        sourceMap: true,
+      },
+    },
+  ];
+  if (preProcessor) {
+    loaders.push({
+      loader: require.resolve(preProcessor),
+      options: Object.assign({}, { sourceMap: true }, preProcessorOptions),
+    });
+  }
+  return loaders;
+};
+
 // This is the development configuration.
 // It is focused on developer experience and fast rebuilds.
 // The production configuration is different and lives in a separate file.
@@ -210,37 +264,33 @@ module.exports = {
           // "style" loader turns CSS into JS modules that inject <style> tags.
           // In production, we use a plugin to extract that CSS to a file, but
           // in development "style" loader enables hot editing of CSS.
+          // By default we support CSS Modules with the extension .module.css
           {
-            test: /\.css$/,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                },
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-            ],
+            test: cssRegex,
+            exclude: cssModuleRegex,
+            use: getStyleLoaders({ importLoaders: 1 }),
+          },
+          // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
+          // using the extension .module.css
+          {
+            test: cssModuleRegex,
+            use: getStyleLoaders({ importLoaders: 1, modules: true, localIdentName }),
+          },
+          // Opt-in support for SASS (using .scss or .sass extensions).
+          // Chains the sass-loader with the css-loader and the style-loader
+          // to immediately apply all styles to the DOM.
+          // By default we support SASS Modules with the
+          // extensions .module.scss or .module.sass
+          {
+            test: sassRegex,
+            exclude: sassModuleRegex,
+            use: getStyleLoaders({ importLoaders: 2 }, 'sass-loader'),
+          },
+          // Adds support for CSS Modules, but using SASS
+          // using the extension .module.scss or .module.sass
+          {
+            test: sassModuleRegex,
+            use: getStyleLoaders({ importLoaders: 2, modules: true, localIdentName }, 'sass-loader'),
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
@@ -277,6 +327,11 @@ module.exports = {
     }),
     // inject env vars, filtered by mask WEB_APP_, into window.env
     new HtmlWebpackInjectEnvPlugin(),
+    // ignore generated type files for CSS Modules,
+    // see https://github.com/Jimdo/typings-for-css-modules-loader#webpack-rebuilds--builds-slow
+    // new webpack.WatchIgnorePlugin([
+    //   /\.(css|sass|scss)\.d\.ts$/
+    // ]),
     // Add module names to factory functions so they appear in browser profiler.
     new webpack.NamedModulesPlugin(),
     // Makes some environment variables available to the JS code, for example:
